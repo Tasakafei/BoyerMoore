@@ -8,17 +8,24 @@ public final class BoyerMoore {
 
 	private static int firstOccurence(String text, String toSearch, int position) {
 		int lengthId = toSearch.length();
+		int nbOcc = 0;
 		position += lengthId -1;
-
+		int cursor = position;
 		while (position < text.length()) {
 			// TODO TESTER LE FOR
-			for (int i = position; i-- > position - lengthId; ) {
-				if (text.charAt(position) != (toSearch.charAt(lengthId - 1-i))) {
-					position += matchTable.get(text.charAt(position));		
-					break;
+			if (text.charAt(cursor) == toSearch.charAt(cursor)) {
+				if (cursor == position - lengthId) {
+					// on est arrivé au bout du mot
+					nbOcc++;
+					position += matchTable.get(text.charAt(position));
+					cursor = position;
+				} else {
+					cursor--;
 				}
+			} else {
+				position += matchTable.get(text.charAt(position));
+				cursor = position;
 			}
-			
 		}
 	}
 	public static int rechercheOccurences(String text, String toSearch) {
